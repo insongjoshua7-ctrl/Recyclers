@@ -21,7 +21,7 @@ if not api_key:
 st.success("Key added! You can chat now.")
 
 SYSTEM_PROMPT = "You are a helpful and friendly chatbot assistant. Answer simply and clearly."
-MODELS = ["gemini-3.6-flash", "gemini-3.5-flash", "gemini-2.5-flash", "gemini-2.0-flash"]
+MODELS = ["gemini-3.5-flash-lite", "gemini-3.6-flash", "gemini-3.5-flash", "gemini-2.0-flash"]
 def generate_with_retry(client, contents, config, status, retries=2):
     last_error = None
     for model in MODELS:
