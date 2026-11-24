@@ -1,0 +1,62 @@
+# CT PROJECT - HUMILITY.AI
+
+from google import genai
+import os
+
+# Get your API key securely
+client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY")
+)
+
+#CONVERSATION HISTORY SECTION
+
+conversation_history = []
+
+def chat_with_gemini(prompt):
+
+
+    try:
+        conversation_history.append({
+            "role": "user",
+            "parts": [prompt]
+        })
+
+#ERROR HANDLING SECTION
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=conversation_history
+        )
+
+        if response.text:
+            bot_reply = response.text.strip()
+
+            conversation_history.append({
+                "role": "model",
+                "parts": [bot_reply]
+            })
+
+            return bot_reply
+
+        else:
+            return "Sorry, I am unable to generate a response"
+
+    except Exception as e:
+
+        print("Error:",  e)
+        return "Sorry, something went wrong. Please try again."
+
+#main function
+if __name__ == "__main__":
+
+    while True:
+
+        user_input = input("You: ")
+
+        if user_input.lower() in ["quit", "exit", "bye"]:
+            print("Humility.AI: Goodbye!")
+            break
+
+        response = chat_with_gemini(user_input)
+
+        print("Humility.AI:", response)
